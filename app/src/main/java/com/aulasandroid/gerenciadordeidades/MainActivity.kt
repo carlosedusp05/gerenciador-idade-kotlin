@@ -1,5 +1,6 @@
 package com.aulasandroid.gerenciadordeidades
 
+import android.R.attr.font
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,12 +15,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,6 +51,11 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun GerenciadorScreen(modifier: Modifier = Modifier) {
+
+    var idade by remember {
+        mutableStateOf(0)
+    }
+
     Column(modifier = modifier
         .background(Color.White)
         .fillMaxSize(),
@@ -80,7 +91,7 @@ fun GerenciadorScreen(modifier: Modifier = Modifier) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "18",
+                text = "${idade}",
                 fontSize = 25.sp
             )
         }
@@ -88,39 +99,47 @@ fun GerenciadorScreen(modifier: Modifier = Modifier) {
         Row(modifier = Modifier
             .fillMaxWidth()
             .height(90.dp)
-            .padding(120.dp, 0.dp),
-            horizontalArrangement = Arrangement.spacedBy(40.dp),
+            .padding(100.dp, 0.dp),
+            horizontalArrangement = Arrangement.spacedBy(50.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Button(
-                onClick = {},
+                onClick = {
+                    if (idade > 0)
+                        idade--
+                },
 
-                modifier = Modifier.size(70.dp),
+                modifier = Modifier.width(80.dp) .height(70.dp),
 
                 colors = ButtonDefaults.buttonColors(
                         containerColor = Color.Blue),
 
-                shape = RoundedCornerShape( 10.dp),
+                shape = RoundedCornerShape( 20.dp),
             ) {
                 Text(text = "-",
                     fontWeight = FontWeight.ExtraBold,
+                    fontSize = 30.sp,
                     color = Color.White
                 )
 
             }
 
             Button(
-                onClick = {},
+                onClick = {
+                    if (idade < 180)
+                        idade ++
+                },
 
-                modifier = Modifier.size(70.dp),
+                modifier = Modifier.width(80.dp) .height(70.dp),
 
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Blue),
 
-                shape = RoundedCornerShape( 10.dp),
+                shape = RoundedCornerShape( 20.dp),
             ) {
                 Text(text = "+",
                     fontWeight = FontWeight.ExtraBold,
+                    fontSize = 30.sp,
                     color = Color.White
                     )
             }
@@ -132,7 +151,7 @@ fun GerenciadorScreen(modifier: Modifier = Modifier) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Text(text = "Você é ???? de idade!",
+            Text(text = "Você é ${ if(idade < 18)"MENOR" else "MAIOR"} de idade!",
                 fontWeight = FontWeight.Bold,
                 color = Color.Blue,
                 fontSize = 28.sp)
